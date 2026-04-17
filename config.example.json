@@ -1,0 +1,18 @@
+{
+  "threshold": 90,
+  "windows": ["seven_day", "five_hour"],
+  "chain_statusline": "",
+  "notifiers": ["macos"],
+  "notifier_config": {
+    "macos": {
+      "sound": "Basso"
+    },
+    "slack": {
+      "webhook_url": ""
+    },
+    "webhook": {
+      "url": "",
+      "headers": {}
+    }
+  }
+}

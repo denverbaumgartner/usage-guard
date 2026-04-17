@@ -1,0 +1,7 @@
+{
+  "name": "usage-guard",
+  "version": "0.1.0",
+  "description": "Halt Claude Code agents at configurable usage thresholds with multi-channel notifications",
+  "author": "denverbaumgartner",
+  "repository": "https://github.com/denverbaumgartner/usage-guard"
+}
