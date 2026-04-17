@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 # Notifier dispatcher — factory pattern. Add new notifiers to notifiers/ and list them in config.json.
 
+HOOKS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+NOTIFIERS_DIR="$(dirname "$HOOKS_DIR")/notifiers"
 DATA_DIR="$HOME/.claude/usage-guard"
 CONFIG="$DATA_DIR/config.json"
-NOTIFIERS_DIR="$DATA_DIR/notifiers"
 
 PCT="${1:?usage: notify.sh <pct> <threshold> <window>}"
 THRESHOLD="${2:?}"

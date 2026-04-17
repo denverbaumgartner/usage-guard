@@ -1,17 +1,25 @@
 ---
 name: usage-guard:resume
-description: Snooze the usage-guard halt so the agent can continue past the usage threshold. Accepts an optional duration (seconds, or human-readable like 30m, 1h). Default is 30 minutes.
+description: Snooze the usage-guard halt so the agent can continue past the usage threshold. Accepts optional duration as seconds, "30m", or "1h". Default is 30 minutes.
 ---
 
-Parse the user's argument as a snooze duration:
-- No arg → use default from config (or 1800s / 30 min)
-- Raw number → treat as seconds
-- "30m" → 1800, "1h" → 3600, "2h" → 7200, "90m" → 5400, etc.
+Parse the user's argument as a snooze duration. The snooze.sh script handles these formats natively:
+- No arg → uses snooze_seconds from config (default 1800 / 30 min)  
+- "30m", "90m", etc → minutes
+- "1h", "2h", etc → hours
+- Raw integer → seconds
 
-Convert to seconds, then run:
+Run:
 
 ```bash
-bash ~/.claude/usage-guard/hooks/snooze.sh <seconds>
+bash ~/.claude/usage-guard/hooks/snooze.sh <arg>
 ```
 
-Report back: duration set and human-readable expiry time.
+If the plugin was installed via marketplace, snooze.sh may be at a different path. Try:
+
+```bash
+bash ~/.claude/usage-guard/hooks/snooze.sh "$ARG" 2>/dev/null \
+  || find ~/.claude/plugins/cache -name snooze.sh 2>/dev/null | head -1 | xargs -I{} bash {} "$ARG"
+```
+
+Report: duration set and human-readable expiry time.

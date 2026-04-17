@@ -88,5 +88,5 @@ _high_usage() {
   _high_usage
   run bash "$HOME/.claude/usage-guard/hooks/check-usage.sh" <<< '{}'
   reason=$(echo "$output" | jq -r '.stopReason')
-  [[ "$reason" == *"snooze.sh"* ]]
+  [[ "$reason" == *"/usage-guard:resume"* ]]
 }
