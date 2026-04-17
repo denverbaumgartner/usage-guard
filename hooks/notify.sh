@@ -9,7 +9,9 @@ PCT="${1:?usage: notify.sh <pct> <threshold> <window>}"
 THRESHOLD="${2:?}"
 WINDOW="${3:?}"
 
-mapfile -t NOTIFIERS < <(jq -r '.notifiers // ["macos"] | .[]' "$CONFIG" 2>/dev/null || echo "macos")
+NOTIFIERS=()
+while IFS= read -r n; do NOTIFIERS+=("$n"); done \
+  < <(jq -r '.notifiers // ["macos"] | .[]' "$CONFIG" 2>/dev/null || echo "macos")
 
 for NOTIFIER in "${NOTIFIERS[@]}"; do
   SCRIPT="$NOTIFIERS_DIR/${NOTIFIER}.sh"

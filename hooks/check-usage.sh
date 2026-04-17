@@ -10,7 +10,9 @@ HOOKS_DIR="$DATA_DIR/hooks"
 [[ -f "$CONFIG" ]] || exit 0
 
 THRESHOLD=$(jq -r '.threshold // 90' "$CONFIG")
-mapfile -t WINDOWS < <(jq -r '.windows // ["seven_day"] | .[]' "$CONFIG")
+WINDOWS=()
+while IFS= read -r win; do WINDOWS+=("$win"); done \
+  < <(jq -r '.windows // ["seven_day"] | .[]' "$CONFIG")
 
 EXCEEDED_WINDOW=""
 EXCEEDED_PCT=""

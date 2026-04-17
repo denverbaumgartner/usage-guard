@@ -13,5 +13,5 @@ echo "$INPUT" | jq -c '.rate_limits // {}' > "$DATA_DIR/rate_limits.tmp" \
 # Chain to configured next statusLine (caveman, etc.) — output goes to Claude Code status bar
 CHAIN=$(jq -r '.chain_statusline // ""' "$CONFIG" 2>/dev/null || echo "")
 if [[ -n "$CHAIN" ]]; then
-  echo "$INPUT" | eval "$CHAIN"
+  echo "$INPUT" | eval "$CHAIN" || true
 fi
