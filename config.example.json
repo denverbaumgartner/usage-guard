@@ -1,5 +1,6 @@
 {
   "threshold": 90,
+  "snooze_seconds": 1800,
   "windows": ["seven_day", "five_hour"],
   "chain_statusline": "",
   "notifiers": ["macos"],

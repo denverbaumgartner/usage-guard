@@ -11,6 +11,7 @@ mkdir -p "$INSTALL_DIR/hooks" "$INSTALL_DIR/notifiers"
 cp "$REPO_DIR/hooks/statusline.sh"  "$INSTALL_DIR/hooks/"
 cp "$REPO_DIR/hooks/check-usage.sh" "$INSTALL_DIR/hooks/"
 cp "$REPO_DIR/hooks/notify.sh"      "$INSTALL_DIR/hooks/"
+cp "$REPO_DIR/hooks/snooze.sh"      "$INSTALL_DIR/hooks/"
 
 cp "$REPO_DIR/notifiers/macos.sh"   "$INSTALL_DIR/notifiers/"
 cp "$REPO_DIR/notifiers/slack.sh"   "$INSTALL_DIR/notifiers/"

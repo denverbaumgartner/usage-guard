@@ -4,10 +4,22 @@ DATA_DIR="$HOME/.claude/usage-guard"
 CONFIG="$DATA_DIR/config.json"
 RATE_LIMITS="$DATA_DIR/rate_limits.json"
 HOOKS_DIR="$DATA_DIR/hooks"
+RESUME_FLAG="$DATA_DIR/resume.flag"
 
 # No data yet — allow
 [[ -f "$RATE_LIMITS" ]] || exit 0
 [[ -f "$CONFIG" ]] || exit 0
+
+# Check active snooze — allow through if not expired
+if [[ -f "$RESUME_FLAG" ]]; then
+  EXPIRES=$(cat "$RESUME_FLAG" 2>/dev/null || echo "0")
+  NOW=$(date +%s)
+  if [[ "$NOW" -lt "$EXPIRES" ]]; then
+    exit 0
+  else
+    rm -f "$RESUME_FLAG"
+  fi
+fi
 
 THRESHOLD=$(jq -r '.threshold // 90' "$CONFIG")
 WINDOWS=()
@@ -34,9 +46,10 @@ for WINDOW in "${WINDOWS[@]}"; do
 done
 
 if [[ -n "$EXCEEDED_WINDOW" ]]; then
+  SNOOZE_CMD="bash ~/.claude/usage-guard/hooks/snooze.sh"
   bash "$HOOKS_DIR/notify.sh" "$EXCEEDED_PCT" "$THRESHOLD" "$EXCEEDED_WINDOW" || true
-  printf '{"continue": false, "stopReason": "Usage Guard: %s window at %s%% (threshold: %s%%). Paused to preserve budget — resume when ready."}\n' \
-    "$EXCEEDED_WINDOW" "$EXCEEDED_PCT" "$THRESHOLD"
+  printf '{"continue": false, "stopReason": "Usage Guard: %s window at %s%% (threshold: %s%%). To resume: %s [seconds, default 1800]"}\n' \
+    "$EXCEEDED_WINDOW" "$EXCEEDED_PCT" "$THRESHOLD" "$SNOOZE_CMD"
   exit 0
 fi
 
