@@ -16,7 +16,7 @@ while IFS= read -r n; do NOTIFIERS+=("$n"); done \
 
 for NOTIFIER in "${NOTIFIERS[@]}"; do
   SCRIPT="$NOTIFIERS_DIR/${NOTIFIER}.sh"
-  if [[ -x "$SCRIPT" ]]; then
+  if [[ -f "$SCRIPT" ]]; then
     bash "$SCRIPT" "$PCT" "$THRESHOLD" "$WINDOW" "$CONFIG" || true
   else
     echo "usage-guard: notifier '$NOTIFIER' not found at $SCRIPT" >&2
