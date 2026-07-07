@@ -47,7 +47,7 @@ done
 
 if [[ -n "$EXCEEDED_WINDOW" ]]; then
   bash "$HOOKS_DIR/notify.sh" "$EXCEEDED_PCT" "$THRESHOLD" "$EXCEEDED_WINDOW" || true
-  printf '{"continue": false, "stopReason": "Usage Guard: %s window at %s%% (threshold: %s%%). Run /usage-guard:resume [30m|1h|seconds] to continue."}\n' \
+  printf '{"continue": false, "stopReason": "Usage Guard: %s window at %s%% (threshold: %s%%). To resume: bash ~/.claude/usage-guard/hooks/snooze.sh [30m|1h|seconds]"}\n' \
     "$EXCEEDED_WINDOW" "$EXCEEDED_PCT" "$THRESHOLD"
   exit 0
 fi
